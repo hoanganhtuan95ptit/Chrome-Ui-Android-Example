@@ -1,0 +1,183 @@
+buildscript {
+    ext {
+        versionCode = new Date().format('yyyyMMddHH').toInteger()
+        versionName = "1.1." + new Date().format('yyyy.MM.dd.hh.mm').toString()
+        minSdkVersion = 21
+        targetSdkVersion = 31
+        compileSdkVersion = 31
+
+        nav_version = '2.5.1'
+        ktx_version = '1.8.0'
+        koin_version = '2.1.6'
+        room_version = "2.4.3"
+        work_version = "2.7.1"
+        glide_version = '4.13.2'
+        junit_version = '4.12'
+        okhttp_version = '4.10.0'
+        kotlin_version = '1.6.21'
+        jackson_version = "2.11.3"
+
+        core_version = "1.1.4"
+        core_app_version = "1.1.4"
+
+        detect_version = "1.1.4"
+
+        camerax_version = '1.1.0'
+        camera_view_version = '1.1.0'
+
+        lottie_version = '4.2.1'
+        retrofit_version = '2.9.0'
+        fragment_version = '1.5.1'
+        multidex_version = '2.0.1'
+        recycler_version = '1.2.1'
+        appcompat_version = '1.4.2'
+        lifecycle_version = '2.5.1'
+        viewpager2_version = '1.0.0'
+        vectordrawable_version = '1.1.0'
+        legacy_support_version = '1.0.0'
+        preference_ktx_version = '1.1.1'
+        constraint_layout_version = '2.1.4'
+        swiperefreshlayout_version = '1.1.0'
+        material_components_version = '1.6.1'
+        lifecycle_extensions_version = '2.2.0'
+        localbroadcastmanager_version = '1.0.0'
+
+        play_core_ktx_version = '1.10.3'
+
+        firebase_bom_version = '30.3.1'
+        firebase_ads_version = '21.1.0'
+
+        hoanganhtuan95ptit_version = "1.1.6"
+
+        koinDependencies = [
+                core              : "org.koin:koin-core:$koin_version",
+                android           : "org.koin:koin-android:$koin_version",
+                core_ext          : "org.koin:koin-core-ext:$koin_version",
+                androidx_ext      : "org.koin:koin-androidx-ext:$koin_version",
+                androidx_viewmodel: "org.koin:koin-androidx-viewmodel:$koin_version",
+                androidx_fragment : "org.koin:koin-androidx-fragment:$koin_version",
+        ]
+
+        testDependencies = [
+                coroutines : "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.0",
+
+                android    : "androidx.arch.core:core-testing:2.1.0",
+
+                junit      : 'junit:junit:4.+',
+                mockito    : "io.mockk:mockk:1.12.0",
+                robolectric: "org.robolectric:robolectric:4.6",
+        ]
+
+        cameraDependencies = [
+                view     : "androidx.camera:camera-view:$camera_view_version",
+                camera2  : "androidx.camera:camera-camera2:$camerax_version",
+                lifecycle: "androidx.camera:camera-lifecycle:$camerax_version",
+        ]
+
+        jacksonDependencies = [
+                core       : "com.fasterxml.jackson.core:jackson-core:$jackson_version",
+                databind   : "com.fasterxml.jackson.core:jackson-databind:$jackson_version",
+                annotations: "com.fasterxml.jackson.core:jackson-annotations:$jackson_version",
+        ]
+
+        androidxDependencies = [
+                core                 : "androidx.core:core-ktx:$ktx_version",
+                multidex             : "androidx.multidex:multidex:$multidex_version",
+                appcompat            : "androidx.appcompat:appcompat:$appcompat_version",
+                fragment             : "androidx.fragment:fragment-ktx:$fragment_version",
+                legacy               : "androidx.legacy:legacy-support-v4:$legacy_support_version",
+                preference           : "androidx.preference:preference-ktx:$preference_ktx_version",
+                constraintlayout     : "androidx.constraintlayout:constraintlayout:$constraint_layout_version",
+                vectordrawable       : "androidx.vectordrawable:vectordrawable-animated:$vectordrawable_version",
+                swiperefreshlayout   : "androidx.swiperefreshlayout:swiperefreshlayout:$swiperefreshlayout_version",
+                recyclerview         : "androidx.recyclerview:recyclerview:$recycler_version",
+                localbroadcastmanager: "androidx.localbroadcastmanager:localbroadcastmanager:$localbroadcastmanager_version",
+
+                room_ktx             : "androidx.room:room-ktx:$room_version",
+                room_runtime         : "androidx.room:room-runtime:$room_version",
+
+                work                 : "androidx.work:work-runtime-ktx:$work_version",
+
+                navigation_ui        : "androidx.navigation:navigation-ui-ktx:$nav_version",
+                navigation_runtime   : "androidx.navigation:navigation-runtime-ktx:$nav_version",
+                navigation_fragment  : "androidx.navigation:navigation-fragment-ktx:$nav_version",
+
+                lifecycle_livedata   : "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version",
+                lifecycle_common     : "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version",
+                lifecycle_viewmodel  : "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version",
+                lifecycle_extensions : "androidx.lifecycle:lifecycle-extensions:$lifecycle_extensions_version",
+        ]
+
+        playDependencies = [
+                review: "com.google.android.play:review-ktx:2.0.0",
+                update: "com.google.android.play:app-update-ktx:2.0.0",
+        ]
+
+        firebaseDependencies = [
+                ads        : "com.google.firebase:firebase-ads:$firebase_ads_version",
+                perf       : 'com.google.firebase:firebase-perf-ktx',
+                config     : 'com.google.firebase:firebase-config',
+                analytics  : 'com.google.firebase:firebase-analytics',
+                firestore  : 'com.google.firebase:firebase-firestore-ktx',
+                crashlytics: 'com.google.firebase:firebase-crashlytics',
+        ]
+
+        coroutinesDependencies = [
+                core   : "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0",
+                android: "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0",
+        ]
+
+        hoanganhtuan95ptitDependencies = [
+
+                core           : "com.github.hoanganhtuan95ptit.core:core:$hoanganhtuan95ptit_version",
+                core_app       : "com.github.hoanganhtuan95ptit.core:core-app:$hoanganhtuan95ptit_version",
+//                core_ads            : "com.github.hoanganhtuan95ptit.core:core-ads:$hoanganhtuan95ptit_version",
+//                core_review         : "com.github.hoanganhtuan95ptit.core:core-review:$hoanganhtuan95ptit_version",
+//                core_update         : "com.github.hoanganhtuan95ptit.core:core-update:$hoanganhtuan95ptit_version",
+                core_navigation: "com.github.hoanganhtuan95ptit.core:core-navigation:$hoanganhtuan95ptit_version",
+
+                detect         : "com.github.hoanganhtuan95ptit.core:detect:$hoanganhtuan95ptit_version",
+                detect_mlkit   : "com.github.hoanganhtuan95ptit.core:detect-mlkit:$hoanganhtuan95ptit_version",
+
+                translate      : "com.github.hoanganhtuan95ptit.core:translate:$hoanganhtuan95ptit_version",
+                translate_mlkit: "com.github.hoanganhtuan95ptit.core:translate-mlkit:$hoanganhtuan95ptit_version",
+
+                word           : "com.github.hoanganhtuan95ptit.core:word:$hoanganhtuan95ptit_version",
+
+                adapter       : "com.github.hoanganhtuan95ptit.core:adapter:$hoanganhtuan95ptit_version",
+
+                web3_ktx       : "com.github.hoanganhtuan95ptit:web3-ktx:1.0.3",
+
+//                config_firebase     : "com.github.hoanganhtuan95ptit.core:config-firebase:$hoanganhtuan95ptit_version",
+//                analytics_firebase  : "com.github.hoanganhtuan95ptit.core:analytics-firebase:$hoanganhtuan95ptit_version",
+//                crashlytics_firebase: "com.github.hoanganhtuan95ptit.core:crashlytics-firebase:$hoanganhtuan95ptit_version",
+        ]
+    }
+
+    repositories {
+        google()
+        jcenter()
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+    }
+
+    dependencies {
+        classpath "com.android.tools.build:gradle:7.0.4"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
