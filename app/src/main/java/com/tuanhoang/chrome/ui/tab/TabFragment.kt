@@ -210,6 +210,11 @@ class TabFragment : BaseViewBindingFragment<FragmentTabBinding>(), Navigation, T
 
         val binding = binding ?: return
 
+        binding.ivViewTab1.setDebouncedClickListener {
+
+            (activity as? MainActivity)?.openMultiTab()
+        }
+
         binding.ivViewTab.setDebouncedClickListener {
 
             (activity as? MainActivity)?.openMultiTab()
@@ -253,7 +258,7 @@ class TabFragment : BaseViewBindingFragment<FragmentTabBinding>(), Navigation, T
         val navigationHeight = insets.getNavigationBar()
 
         if (statusHeight > 0) binding.coordinatorLayout.updatePadding(top = statusHeight)
-        if (statusHeight > 0) binding.frameContent.resize(height = requireActivity().window.decorView.height - statusHeight - navigationHeight - 56.toPx())
+        if (statusHeight > 0) binding.frameContent.resize(height = requireActivity().window.decorView.height - statusHeight  - 56.toPx())
 
         insets
     }
