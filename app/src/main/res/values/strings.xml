@@ -14,4 +14,6 @@
 
     <string name="title_home">Home</string>
     <string name="title_search">Search</string>
+    <string name="search_with_google">Search %s with Google</string>
+    <string name="search_with_youtube">Search %s with Youtube</string>
 </resources>

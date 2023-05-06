@@ -9,6 +9,7 @@ import com.one.coreapp.utils.extentions.getOrEmpty
 import com.one.coreapp.utils.extentions.liveData
 import com.one.coreapp.utils.extentions.postDifferentValue
 import com.tuanhoang.chrome.entities.Link
+import com.tuanhoang.chrome.entities.link.ResultLink
 import com.tuanhoang.chrome.ui.adapter.GroupLinkViewItem
 import com.tuanhoang.chrome.ui.tab.home.adapter.ResultLinkViewItem
 
@@ -37,31 +38,31 @@ class HomeViewModel : BaseViewModel() {
         }
 
         listOf(
-            Link(
+            ResultLink(
                 url = "https://github.com/",
                 name = "Github",
                 image = "https://github.blog/wp-content/uploads/2021/12/GitHub-code-search_banner.png?resize=1200%2C630",
                 title = "Today, we are rolling out a technology preview for GitHub code search, the next iteration for search, discovery, and navigation on GitHub."
             ),
-            Link(
+            ResultLink(
                 url = "https://github.com/",
                 name = "Github",
                 image = "https://github.blog/wp-content/uploads/2021/12/GitHub-code-search_banner.png?resize=1200%2C630",
                 title = "Today, we are rolling out a technology preview for GitHub code search, the next iteration for search, discovery, and navigation on GitHub."
             ),
-            Link(
+            ResultLink(
                 url = "https://github.com/",
                 name = "Github",
                 image = "https://github.blog/wp-content/uploads/2021/12/GitHub-code-search_banner.png?resize=1200%2C630",
                 title = "Today, we are rolling out a technology preview for GitHub code search, the next iteration for search, discovery, and navigation on GitHub."
             ),
-            Link(
+            ResultLink(
                 url = "https://github.com/",
                 name = "Github",
                 image = "https://github.blog/wp-content/uploads/2021/12/GitHub-code-search_banner.png?resize=1200%2C630",
                 title = "Today, we are rolling out a technology preview for GitHub code search, the next iteration for search, discovery, and navigation on GitHub."
             ),
-            Link(
+            ResultLink(
                 url = "https://github.com/",
                 name = "Github",
                 image = "https://github.blog/wp-content/uploads/2021/12/GitHub-code-search_banner.png?resize=1200%2C630",

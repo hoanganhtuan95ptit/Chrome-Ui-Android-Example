@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:padding="8dp">
+
+    <ImageView
+        android:id="@+id/iv_logo"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="4dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        style="?attr/textBody2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="8dp"
+        android:ellipsize="end"
+        android:lines="1"
+        android:singleLine="false"
+        android:textColor="@color/color_on_state_surface_accent"
+        app:layout_constraintBottom_toBottomOf="@id/iv_logo"
+        app:layout_constraintEnd_toStartOf="@id/iv_close"
+        app:layout_constraintStart_toEndOf="@id/iv_logo"
+        app:layout_constraintTop_toTopOf="@id/iv_logo"
+        tools:text="Securely scan WalletConnect, address or private key to import your wallet" />
+
+    <ImageView
+        android:id="@+id/iv_close"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:padding="4dp"
+        android:src="@drawable/ic_close_on_state_surface_accent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

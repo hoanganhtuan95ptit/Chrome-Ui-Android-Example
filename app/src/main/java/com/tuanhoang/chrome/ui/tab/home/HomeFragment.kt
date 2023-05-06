@@ -1,10 +1,8 @@
 package com.tuanhoang.chrome.ui.tab.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.os.bundleOf
-import androidx.core.view.ViewCompat
 import com.one.adapter.MultiAdapter
 import com.one.coreapp.utils.autoCleared
 import com.one.navigation.NavigationEvent
@@ -85,7 +83,6 @@ class HomeFragment : PageFragment<FragmentHomeBinding, HomeViewModel>() {
 
         viewItemListDisplay.observe(viewLifecycleOwner) {
 
-            Log.d("tuanha", "observeData: ${it.map { it.javaClass.simpleName }}")
             adapter?.submitList(it)
 //            binding!!.recyclerView.scrollY = page.scrollY
         }

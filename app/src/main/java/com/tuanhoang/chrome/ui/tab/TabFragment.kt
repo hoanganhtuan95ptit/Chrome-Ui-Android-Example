@@ -232,7 +232,7 @@ class TabFragment : BaseViewBindingFragment<FragmentTabBinding>(), Navigation, T
 
         binding.edtSearch.addTextChangedListener {
 
-
+            childFragmentManager.fragments.filterIsInstance<PageView>().lastOrNull()?.updateQuery(it.toString())
         }
 
         binding.edtSearch.setOnFocusChangeListener { _, b ->

@@ -7,6 +7,7 @@ import com.one.adapter.ViewItemCloneable
 import com.one.coreapp.utils.extentions.*
 import com.tuanhoang.chrome.databinding.ItemLinkResultBinding
 import com.tuanhoang.chrome.entities.Link
+import com.tuanhoang.chrome.entities.link.ResultLink
 import java.net.URL
 
 class ResultLinkAdapter(onItemClick: (View, ResultLinkViewItem) -> Unit) : ViewItemAdapter<ResultLinkViewItem, ItemLinkResultBinding>(onItemClick) {
@@ -38,7 +39,7 @@ class ResultLinkAdapter(onItemClick: (View, ResultLinkViewItem) -> Unit) : ViewI
 }
 
 data class ResultLinkViewItem(
-    val data: Link,
+    val data: ResultLink,
 
     var logo: Image<*> = emptyImage(),
     var name: Text<*> = emptyText(),
