@@ -32,7 +32,7 @@
         <item name="colorOnPrimaryVariant">#999999</item>
 
         <item name="colorSurface">#3C4043</item>
-        <item name="colorOnSurface">#000000</item>
+        <item name="colorOnSurface">#FFFFFF</item>
 
         <item name="colorSurfaceVariant">#40FFFFFF</item>
         <item name="colorOnSurfaceVariant">#B1B2B4</item>

@@ -6,18 +6,20 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.doOnPreDraw
 import com.one.navigation.NavigationEvent
 import com.one.navigation.offerNavEvent
+import com.tuanhoang.chrome.LOGO_PAGE_DEFAULT
+import com.tuanhoang.chrome.R
 import com.tuanhoang.chrome.databinding.FragmentSearchBinding
-import com.tuanhoang.chrome.entities.GroupPage
+import com.tuanhoang.chrome.entities.Page
 import com.tuanhoang.chrome.entities.GroupPageType
 import com.tuanhoang.chrome.ui.tab.GroupPageFragment
 import com.tuanhoang.chrome.ui.tab.TabView
 import com.tuanhoang.chrome.ui.tab.web.WebEvent
 
-class SearchFragment : GroupPageFragment<FragmentSearchBinding>() {
+class SearchFragment : GroupPageFragment<FragmentSearchBinding, SearchViewModel>() {
 
-    override val groupPage: GroupPage by lazy {
+    override val page: Page by lazy {
 
-        GroupPage(type = GroupPageType.SEARCH)
+        Page(type = GroupPageType.SEARCH)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -26,9 +28,9 @@ class SearchFragment : GroupPageFragment<FragmentSearchBinding>() {
 
         super.onViewCreated(view, savedInstanceState)
 
-        if (groupPage.scrollY > 0) binding!!.nestedScrollView.doOnPreDraw {
+        if (page.scrollY > 0) binding!!.nestedScrollView.doOnPreDraw {
 
-            binding!!.nestedScrollView.scrollY = groupPage.scrollY
+            binding!!.nestedScrollView.scrollY = page.scrollY
         }
 
 
@@ -43,12 +45,20 @@ class SearchFragment : GroupPageFragment<FragmentSearchBinding>() {
 
 //            offerNavEvent(AssetEvent())
         }
+
+        (parentFragment as? TabView)?.onPageLogo(LOGO_PAGE_DEFAULT)
+        (parentFragment as? TabView)?.onPageTitle(getString(R.string.title_search))
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
 
-        (parentFragment as TabView).onPageRemove(groupPage)
+        (parentFragment as TabView).onPageRemove(page)
+    }
+
+    override fun updateQuery(query: String) {
+
+//        viewModel.update
     }
 }
 

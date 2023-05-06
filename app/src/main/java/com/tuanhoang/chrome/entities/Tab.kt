@@ -9,54 +9,26 @@ data class Tab(
 
     val id: String = UUID.randomUUID().toString(),
 
-    var url: String = "",
-    val name: String = "",
+    var logo: String = "",
+    var title: String = "",
     var image: String = "",
 
     var isCurrent: Boolean = false,
 
-    var groupPages: LinkedHashMap<String, GroupPage> = LinkedHashMap()
+    var pages: LinkedHashMap<String, Page> = LinkedHashMap()
 ) : Parcelable {
 
-    fun addLast(groupPage: GroupPage) {
+    fun addLast(page: Page) {
 
-        while (groupPages.containsKey(groupPage.id)) remove(groupPages.values.lastOrNull() ?: return)
+        while (pages.containsKey(page.id)) remove(pages.values.lastOrNull() ?: return)
 
-        groupPages[groupPage.id] = groupPage
+        pages[page.id] = page
     }
 
-    fun remove(groupPage: GroupPage) {
+    fun remove(page: Page) {
 
-        groupPages.remove(groupPage.id)
+        pages.remove(page.id)
     }
-}
-
-@Parcelize
-data class GroupPage(
-
-    val id: String = UUID.randomUUID().toString(),
-
-    var type: GroupPageType = GroupPageType.HOME,
-
-    val pages: LinkedHashMap<String, Page> = Page().let { linkedMapOf(it.id to it) }
-) : Parcelable {
-
-    var scrollY: Int
-        get() = pages.values.last().scrollY
-        set(value) {
-            pages.values.last().scrollY = value
-        }
-
-    var verticalOffset: Int
-        get() = pages.values.last().verticalOffset
-        set(value) {
-            pages.values.last().verticalOffset = value
-        }
-}
-
-enum class GroupPageType {
-
-    HOME, SEARCH, NORMAL
 }
 
 @Parcelize
@@ -67,5 +39,16 @@ data class Page(
     var url: String = "",
 
     var scrollY: Int = -1,
+
     var verticalOffset: Int = -1,
-) : Parcelable
+
+    var type: GroupPageType = GroupPageType.HOME,
+) : Parcelable {
+
+    var byte: ByteArray? = null
+}
+
+enum class GroupPageType {
+
+    HOME, SEARCH, NORMAL
+}

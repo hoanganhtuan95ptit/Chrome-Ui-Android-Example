@@ -1,5 +1,7 @@
 package com.tuanhoang.chrome.utils.ext
 
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.graphics.Color
 import android.view.View
 import android.view.ViewGroup
@@ -46,4 +48,17 @@ fun ViewGroup.show(startView: View, endView: View) {
     }
 
     TransitionManager.beginDelayedTransition(this, transform)
+}
+
+fun View.getBitmap(): Bitmap {
+
+    val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+
+    val canvas = Canvas(bitmap)
+
+    layout(left, top, right, bottom)
+
+    draw(canvas)
+
+    return bitmap
 }

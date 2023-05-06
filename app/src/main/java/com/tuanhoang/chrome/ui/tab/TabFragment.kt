@@ -14,6 +14,7 @@ import androidx.core.os.bundleOf
 import androidx.core.view.marginEnd
 import androidx.core.view.marginStart
 import androidx.core.view.updatePadding
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.appbar.AppBarLayout
@@ -22,21 +23,21 @@ import com.one.coreapp.ui.base.fragments.BaseViewBindingFragment
 import com.one.coreapp.utils.extentions.*
 import com.one.navigation.Navigation
 import com.one.navigation.NavigationEvent
-import com.tuanhoang.chrome.ui.activities.MainActivity
-import com.tuanhoang.chrome.ui.activities.MainViewModel
 import com.tuanhoang.chrome.PARAM_TAB_ID
 import com.tuanhoang.chrome.R
 import com.tuanhoang.chrome.databinding.FragmentTabBinding
-import com.tuanhoang.chrome.entities.GroupPage
 import com.tuanhoang.chrome.entities.GroupPageType
 import com.tuanhoang.chrome.entities.Page
 import com.tuanhoang.chrome.entities.Tab
+import com.tuanhoang.chrome.ui.activities.MainActivity
+import com.tuanhoang.chrome.ui.activities.MainViewModel
 import com.tuanhoang.chrome.ui.tab.home.HomeFragment
 import com.tuanhoang.chrome.ui.tab.home.OverviewEvent
 import com.tuanhoang.chrome.ui.tab.search.SearchEvent
 import com.tuanhoang.chrome.ui.tab.search.SearchFragment
 import com.tuanhoang.chrome.ui.tab.web.WebEvent
 import com.tuanhoang.chrome.ui.tab.web.WebFragment
+import com.tuanhoang.chrome.utils.ext.getBitmap
 import com.tuanhoang.chrome.utils.ext.setDrag
 import com.tuanhoang.chrome.utils.ext.updateMarginHorizontal
 import kotlinx.coroutines.*
@@ -69,7 +70,7 @@ class TabFragment : BaseViewBindingFragment<FragmentTabBinding>(), Navigation, T
 
         tab = mainViewModel.getTab(arguments?.getString(PARAM_TAB_ID) ?: "")
 
-        animation = tab.groupPages.size <= 0
+        animation = tab.pages.size <= 0
 
         setupTab()
         setupHome()
@@ -79,7 +80,7 @@ class TabFragment : BaseViewBindingFragment<FragmentTabBinding>(), Navigation, T
 
         viewLifecycleOwner.lifecycleScope.launchWhenResumed {
 
-            val groupPages = tab.groupPages.values.toList()
+            val groupPages = tab.pages.values.toList()
             openGroupPage(groupPages.getOrNull(groupPages.lastIndex))
         }
     }
@@ -96,6 +97,12 @@ class TabFragment : BaseViewBindingFragment<FragmentTabBinding>(), Navigation, T
 
     override fun onPause() {
         super.onPause()
+
+        val binding = binding ?: return
+
+
+        mainViewModel.updateTab(tab, binding.frameContent.getBitmap())
+
 
         val fragmentLast = childFragmentManager.fragments.lastOrNull()
 
@@ -115,7 +122,7 @@ class TabFragment : BaseViewBindingFragment<FragmentTabBinding>(), Navigation, T
         }
 
 
-        val groupPages = tab.groupPages.values.toList()
+        val groupPages = tab.pages.values.toList()
 
 
         return if (groupPages.size > 1) {
@@ -133,24 +140,21 @@ class TabFragment : BaseViewBindingFragment<FragmentTabBinding>(), Navigation, T
 
         if (event is WebEvent) {
 
-            val groupPage = event.groupPage ?: event.url?.let {
+            val page = event.page ?: event.url?.let {
 
-                Page(url = it)
-            }?.let {
-
-                GroupPage(type = GroupPageType.NORMAL, pages = linkedMapOf(it.id to it))
+                Page(type = GroupPageType.NORMAL, url = it)
             }
 
-            addFragment(WebFragment.newInstance(groupPage))
+            addFragment(WebFragment.newInstance(page))
 
             return true
         }
 
         if (event is OverviewEvent) {
 
-            val groupPage = event.groupPage ?: GroupPage(type = GroupPageType.HOME)
+            val page = event.page ?: Page(type = GroupPageType.HOME)
 
-            addFragment(HomeFragment.newInstance(groupPage))
+            addFragment(HomeFragment.newInstance(page))
 
             return true
         }
@@ -165,24 +169,34 @@ class TabFragment : BaseViewBindingFragment<FragmentTabBinding>(), Navigation, T
         return super.onNavigationEvent(event)
     }
 
-    override fun onPageShow(groupPage: GroupPage) = viewLifecycleOwner.lifecycleScope.launch {
+    override fun onPageLogo(logo: String) {
 
-        tab.addLast(groupPage)
-
-        updateState(animation, pageTypeNew = groupPage.type, verticalOffset = groupPage.verticalOffset).join()
+        mainViewModel.updateTab(tab = tab, logo = logo)
     }
 
-    override fun onPageHide(groupPage: GroupPage) = viewLifecycleOwner.lifecycleScope.launch {
+    override fun onPageTitle(title: String) {
+
+        mainViewModel.updateTab(tab = tab, title = title)
+    }
+
+    override fun onPageShow(page: Page) = viewLifecycleOwner.lifecycleScope.launch {
+
+        tab.addLast(page)
+
+        updateState(animation, pageTypeNew = page.type, verticalOffset = page.verticalOffset).join()
+    }
+
+    override fun onPageHide(page: Page) = viewLifecycleOwner.lifecycleScope.launch {
 
     }
 
-    override fun onPageRemove(groupPage: GroupPage) = viewLifecycleOwner.lifecycleScope.launch {
+    override fun onPageRemove(page: Page) = viewLifecycleOwner.lifecycleScope.launch {
 
         val binding = binding ?: return@launch
 
-        tab.remove(groupPage)
+        tab.remove(page)
 
-        if (groupPage.type == GroupPageType.SEARCH) {
+        if (page.type == GroupPageType.SEARCH) {
 
             val inputMethodManager = requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
             val view = requireActivity().currentFocus ?: View(activity)
@@ -216,6 +230,11 @@ class TabFragment : BaseViewBindingFragment<FragmentTabBinding>(), Navigation, T
 
         val binding = binding ?: return
 
+        binding.edtSearch.addTextChangedListener {
+
+
+        }
+
         binding.edtSearch.setOnFocusChangeListener { _, b ->
 
             if (b) viewLifecycleOwner.lifecycleScope.launch {
@@ -231,8 +250,10 @@ class TabFragment : BaseViewBindingFragment<FragmentTabBinding>(), Navigation, T
         val binding = binding ?: return@setOnApplyWindowInsetsListener insets
 
         val statusHeight = insets.getStatusBar()
+        val navigationHeight = insets.getNavigationBar()
 
         if (statusHeight > 0) binding.coordinatorLayout.updatePadding(top = statusHeight)
+        if (statusHeight > 0) binding.frameContent.resize(height = requireActivity().window.decorView.height - statusHeight - navigationHeight - 56.toPx())
 
         insets
     }
@@ -281,14 +302,14 @@ class TabFragment : BaseViewBindingFragment<FragmentTabBinding>(), Navigation, T
         childFragmentManager.beginTransaction().replace(R.id.frame_content, fragment, fragment.javaClass.name).commitAllowingStateLoss()
     }
 
-    private fun openGroupPage(groupPage: GroupPage?) {
+    private fun openGroupPage(page: Page?) {
 
-        if (groupPage == null || groupPage.type == GroupPageType.HOME) {
+        if (page == null || page.type == GroupPageType.HOME) {
 
-            offerNavEvent(OverviewEvent(groupPage))
-        } else if (groupPage.type == GroupPageType.NORMAL) {
+            offerNavEvent(OverviewEvent(page))
+        } else if (page.type == GroupPageType.NORMAL) {
 
-            offerNavEvent(WebEvent(groupPage))
+            offerNavEvent(WebEvent(page))
         }
     }
 
@@ -489,16 +510,25 @@ class TabFragment : BaseViewBindingFragment<FragmentTabBinding>(), Navigation, T
 
 interface TabView {
 
-    fun onPageShow(groupPage: GroupPage): Job
+    fun onPageLogo(logo: String)
 
-    fun onPageHide(groupPage: GroupPage): Job
+    fun onPageTitle(title: String)
 
-    fun onPageRemove(groupPage: GroupPage): Job
+
+    fun onPageShow(page: Page): Job
+
+    fun onPageHide(page: Page): Job
+
+    fun onPageRemove(page: Page): Job
 }
 
 interface PageView {
 
-    fun provideGroupPage(): GroupPage? {
+    fun updateQuery(query: String) {
+
+    }
+
+    fun provideGroupPage(): Page? {
 
         return null
     }

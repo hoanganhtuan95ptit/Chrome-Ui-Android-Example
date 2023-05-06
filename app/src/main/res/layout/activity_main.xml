@@ -4,6 +4,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?android:attr/colorBackground"
     android:theme="@style/Theme.Wallet"
     tools:context=".ui.activities.MainActivity">
 
