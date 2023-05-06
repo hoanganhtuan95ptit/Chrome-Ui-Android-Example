@@ -1,6 +1,7 @@
 package com.tuanhoang.chrome.di
 
 import com.tuanhoang.chrome.ui.activities.MainViewModel
+import com.tuanhoang.chrome.ui.tab.home.HomeViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -9,5 +10,9 @@ val viewModelModule = module {
 
     viewModel {
         MainViewModel()
+    }
+
+    viewModel {
+        HomeViewModel()
     }
 }

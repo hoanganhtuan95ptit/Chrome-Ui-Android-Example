@@ -472,6 +472,19 @@ class TabFragment : BaseViewBindingFragment<FragmentTabBinding>(), Navigation, T
 
             binding.appBarLayout.setDrag(behavior, pageTypeNew == GroupPageType.HOME)
 
+
+            val layoutParams = binding.frameContent.layoutParams as CoordinatorLayout.LayoutParams
+
+            layoutParams.behavior = if (pageTypeNew == GroupPageType.HOME) {
+                binding.frameContent.translationY = 0f
+                AppBarLayout.ScrollingViewBehavior()
+            } else {
+                CollapsingImageBehavior2()
+            }
+
+            binding.frameContent.requestLayout()
+
+
             continuation.resumeActive(true)
         })
 
@@ -548,6 +561,22 @@ class CollapsingImageBehavior(context: Context?, attrs: AttributeSet?) : Coordin
     override fun onDependentViewChanged(parent: CoordinatorLayout, child: View, dependency: View): Boolean {
 
         child.translationY = (dependency.bottom - parent.paddingTop - child.height).toFloat()
+
+        return true
+    }
+}
+
+
+class CollapsingImageBehavior2 : CoordinatorLayout.Behavior<View>() {
+
+    override fun layoutDependsOn(parent: CoordinatorLayout, child: View, dependency: View): Boolean {
+
+        return dependency is AppBarLayout
+    }
+
+    override fun onDependentViewChanged(parent: CoordinatorLayout, child: View, dependency: View): Boolean {
+
+        child.translationY = (dependency.bottom - parent.paddingTop).toFloat()
 
         return true
     }

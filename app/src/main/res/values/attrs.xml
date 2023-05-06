@@ -10,4 +10,13 @@
         <attr name="android:adjustViewBounds" format="boolean"/>
     </declare-styleable>
 
+    <declare-styleable name="RoundImageView">
+        <attr name="rv_radius" format="dimension"/>
+        <attr name="rv_topLeftRadius" format="dimension" />
+        <attr name="rv_topRightRadius" format="dimension" />
+        <attr name="rv_bottomLeftRadius" format="dimension" />
+        <attr name="rv_bottomRightRadius" format="dimension" />
+        <attr name="android:adjustViewBounds" format="boolean"/>
+    </declare-styleable>
+
 </resources>

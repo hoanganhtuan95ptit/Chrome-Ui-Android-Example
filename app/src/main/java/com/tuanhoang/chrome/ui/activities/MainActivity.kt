@@ -4,19 +4,19 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
+import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.one.adapter.MultiAdapter
 import com.one.coreapp.ui.base.activities.BaseViewModelActivity
-import com.one.coreapp.utils.extentions.getOrEmpty
-import com.one.coreapp.utils.extentions.resumeActive
-import com.one.coreapp.utils.extentions.setDebouncedClickListener
-import com.one.coreapp.utils.extentions.show
+import com.one.coreapp.utils.extentions.*
 import com.one.navigation.Navigation
 import com.one.navigation.NavigationEvent
 import com.tuanhoang.chrome.R
 import com.tuanhoang.chrome.databinding.ActivityMainBinding
 import com.tuanhoang.chrome.entities.Tab
+import com.tuanhoang.chrome.ui.activities.adapter.TabAdapter
+import com.tuanhoang.chrome.ui.activities.adapter.TabViewItem
 import com.tuanhoang.chrome.ui.tab.TabFragment
 import com.tuanhoang.chrome.ui.tab.TabView
 import kotlinx.coroutines.delay
@@ -38,6 +38,9 @@ class MainActivity : BaseViewModelActivity<ActivityMainBinding, MainViewModel>()
         window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
         window.statusBarColor = Color.TRANSPARENT
         window.navigationBarColor = Color.TRANSPARENT
+
+
+        setupStatusBar()
 
 
         lifecycleScope.launchWhenResumed {
@@ -77,6 +80,27 @@ class MainActivity : BaseViewModelActivity<ActivityMainBinding, MainViewModel>()
 
                 binding.recTab.scrollToPosition(it.indexOfLast { (it as? TabViewItem)?.data?.isCurrent == true }.takeIf { it >= 0 } ?: (it.size - 1))
             }
+        }
+    }
+
+    private fun setupStatusBar() {
+
+        val binding = binding ?: return
+
+        window.decorView.setOnApplyWindowInsetsListener { _, insets ->
+
+            val statusHeight = insets.getStatusBar()
+
+            if (statusHeight > 0) binding.recTab.updateMargin(top = statusHeight)
+
+            insets
+        }
+
+        binding.root.doOnPreDraw {
+
+            val statusHeight = binding.root.rootWindowInsets.getStatusBar()
+
+            if (statusHeight > 0) binding.recTab.updateMargin(top = statusHeight)
         }
     }
 

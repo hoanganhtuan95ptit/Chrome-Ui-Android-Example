@@ -1,4 +1,4 @@
-package com.tuanhoang.chrome.ui.activities
+package com.tuanhoang.chrome.ui.activities.adapter
 
 import android.view.View
 import com.one.adapter.ViewItemAdapter

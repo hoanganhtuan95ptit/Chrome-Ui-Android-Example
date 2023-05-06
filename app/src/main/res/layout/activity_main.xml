@@ -8,6 +8,7 @@
     android:theme="@style/Theme.Wallet"
     tools:context=".ui.activities.MainActivity">
 
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rec_tab"
         android:layout_width="match_parent"

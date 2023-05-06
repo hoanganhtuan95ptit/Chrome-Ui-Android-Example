@@ -11,11 +11,11 @@ import com.tuanhoang.chrome.R
 import com.tuanhoang.chrome.databinding.FragmentSearchBinding
 import com.tuanhoang.chrome.entities.Page
 import com.tuanhoang.chrome.entities.GroupPageType
-import com.tuanhoang.chrome.ui.tab.GroupPageFragment
+import com.tuanhoang.chrome.ui.tab.PageFragment
 import com.tuanhoang.chrome.ui.tab.TabView
 import com.tuanhoang.chrome.ui.tab.web.WebEvent
 
-class SearchFragment : GroupPageFragment<FragmentSearchBinding, SearchViewModel>() {
+class SearchFragment : PageFragment<FragmentSearchBinding, SearchViewModel>() {
 
     override val page: Page by lazy {
 
@@ -23,9 +23,6 @@ class SearchFragment : GroupPageFragment<FragmentSearchBinding, SearchViewModel>
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-        ViewCompat.setNestedScrollingEnabled(binding!!.nestedScrollView, false)
-
         super.onViewCreated(view, savedInstanceState)
 
         if (page.scrollY > 0) binding!!.nestedScrollView.doOnPreDraw {

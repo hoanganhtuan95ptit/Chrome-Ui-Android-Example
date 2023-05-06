@@ -22,7 +22,29 @@
             android:contentInsetLeft="0dp"
             app:contentInsetLeft="0dp"
             app:contentInsetStart="0dp"
-            app:layout_scrollFlags="scroll|snap" />
+            app:layout_scrollFlags="scroll|snap">
+
+            <ImageView
+                android:id="@+id/iv_view_tab_1"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="8dp"
+                android:src="@drawable/ic_square_on_background_24dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/iv_account_1"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/iv_account_1"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="16dp"
+                android:padding="8dp"
+                android:src="@mipmap/ic_launcher"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/tool_bar"
@@ -36,9 +58,15 @@
                 android:layout_height="56dp"
                 app:layout_collapseMode="pin" />
 
-            <View
+            <TextView
+                style="?attr/textHeadline3"
                 android:layout_width="match_parent"
-                android:layout_height="200dp" />
+                android:layout_height="200dp"
+                android:gravity="center"
+                android:paddingBottom="56dp"
+                android:text="Google"
+                android:textColor="?attr/colorOnBackground"
+                android:textStyle="bold" />
 
             <View
                 android:layout_width="match_parent"

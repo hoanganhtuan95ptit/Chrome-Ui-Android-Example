@@ -15,13 +15,13 @@ import com.tuanhoang.chrome.PARAM_GROUP_PAGE
 import com.tuanhoang.chrome.databinding.FragmentWebBinding
 import com.tuanhoang.chrome.entities.Page
 import com.tuanhoang.chrome.ui.activities.MainViewModel
-import com.tuanhoang.chrome.ui.tab.GroupPageFragment
+import com.tuanhoang.chrome.ui.tab.PageFragment
 import com.tuanhoang.chrome.ui.tab.TabView
 import org.koin.android.ext.android.getKoin
 import org.koin.androidx.viewmodel.koin.getViewModel
 import java.net.URL
 
-class WebFragment : GroupPageFragment<FragmentWebBinding, MainViewModel>() {
+class WebFragment : PageFragment<FragmentWebBinding, MainViewModel>() {
 
 
     override val page: Page by lazy {
@@ -38,9 +38,6 @@ class WebFragment : GroupPageFragment<FragmentWebBinding, MainViewModel>() {
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-        ViewCompat.setNestedScrollingEnabled(binding!!.root, false)
-
         super.onViewCreated(view, savedInstanceState)
     }
 

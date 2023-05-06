@@ -11,7 +11,7 @@ import com.one.coreapp.ui.base.fragments.BaseViewModelFragment
 import com.tuanhoang.chrome.entities.Page
 import kotlinx.coroutines.launch
 
-abstract class GroupPageFragment<T : ViewBinding, VM : ViewModel>(@LayoutRes val layoutId: Int = 0) : BaseViewModelFragment<T, VM>(layoutId), PageView {
+abstract class PageFragment<T : ViewBinding, VM : ViewModel>(@LayoutRes val layoutId: Int = 0) : BaseViewModelFragment<T, VM>(layoutId), PageView {
 
     abstract val page: Page
 
