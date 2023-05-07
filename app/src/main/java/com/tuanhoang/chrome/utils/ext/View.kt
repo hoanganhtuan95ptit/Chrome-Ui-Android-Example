@@ -50,7 +50,12 @@ fun ViewGroup.show(startView: View, endView: View) {
     TransitionManager.beginDelayedTransition(this, transform)
 }
 
-fun View.getBitmap(): Bitmap {
+fun View.getBitmap(): Bitmap? {
+
+    if (width <= 0 || height >= 0) {
+
+        return null
+    }
 
     val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
 

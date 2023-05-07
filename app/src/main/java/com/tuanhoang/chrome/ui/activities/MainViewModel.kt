@@ -1,7 +1,6 @@
 package com.tuanhoang.chrome.ui.activities
 
 import android.graphics.Bitmap
-import android.util.Log
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
@@ -88,7 +87,12 @@ class MainViewModel : BaseViewModel() {
         Unit
     }
 
-    fun updateTab(tab: Tab, bitmap: Bitmap) = viewModelScope.launch(handler + Dispatchers.IO) {
+    fun updateTab(tab: Tab, bitmap: Bitmap?) = viewModelScope.launch(handler + Dispatchers.IO) {
+
+        if (bitmap == null) {
+
+            return@launch
+        }
 
         val tabCache = tabList.getOrEmpty().find { it.id == tab.id } ?: let {
 

@@ -2,7 +2,6 @@ package com.tuanhoang.chrome.ui.activities
 
 import android.graphics.Color
 import android.os.Bundle
-import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.core.view.doOnPreDraw
@@ -21,6 +20,7 @@ import com.tuanhoang.chrome.ui.activities.adapter.TabAdapter
 import com.tuanhoang.chrome.ui.activities.adapter.TabViewItem
 import com.tuanhoang.chrome.ui.tab.TabFragment
 import com.tuanhoang.chrome.ui.tab.TabView
+import com.tuanhoang.chrome.utils.ext.show
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -101,7 +101,7 @@ class MainActivity : BaseViewModelActivity<ActivityMainBinding, MainViewModel>()
         }
     }
 
-    private fun observeData() = with(viewModel){
+    private fun observeData() = with(viewModel) {
 
         tabViewItemListDisplay.observe(this@MainActivity) {
 
@@ -156,7 +156,6 @@ class MainActivity : BaseViewModelActivity<ActivityMainBinding, MainViewModel>()
 
 
         binding.root.show(binding.frameContent, viewItemSelect)
-        binding.frameContent.visibility = View.GONE
     }
 
     private fun openSingleTab(tab: Tab, anim: Boolean = true) = lifecycleScope.launch {
@@ -178,10 +177,6 @@ class MainActivity : BaseViewModelActivity<ActivityMainBinding, MainViewModel>()
 
 
         if (anim) binding.root.show(viewItemSelect, binding.frameContent)
-
-
-        viewItemSelect.visibility = View.VISIBLE
-        binding.frameContent.visibility = View.VISIBLE
 
 
         val fragment = supportFragmentManager.fragments.find { it is TabView } ?: return@launch
