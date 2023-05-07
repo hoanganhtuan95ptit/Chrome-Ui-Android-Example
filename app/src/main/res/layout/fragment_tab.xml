@@ -96,7 +96,7 @@
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:orientation="horizontal"
-        app:layout_behavior=".ui.tab.CollapsingImageBehavior">
+        app:layout_behavior=".ui.tab.SearchCollapsingBehavior">
 
         <EditText
             android:id="@+id/edt_search"

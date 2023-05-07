@@ -419,18 +419,6 @@ class TabFragment : BaseViewBindingFragment<FragmentTabBinding>(), Navigation, T
         }
 
 
-//        val ivAddTabTranslationXNew = if (pageTypeNew != GroupPageType.NORMAL) {
-//            DP_128.toFloat()
-//        } else {
-//            DP_0.toFloat()
-//        }
-//
-//        if (binding.ivAddTab.translationX != ivHomeTranslationXNew) PropertyValuesHolder.ofFloat(ivAddTabTranslationX, binding.ivAddTab.translationX, ivAddTabTranslationXNew).let {
-//
-//            list.add(it)
-//        }
-
-
         val ivViewTabTranslationXNew = if (pageTypeNew != GroupPageType.NORMAL) {
             DP_96.toFloat()
         } else {
@@ -476,10 +464,6 @@ class TabFragment : BaseViewBindingFragment<FragmentTabBinding>(), Navigation, T
                 binding.ivHome.translationX = it
             }
 
-//            (animator.getAnimatedValue(ivAddTabTranslationX) as? Float)?.let {
-//                binding.ivAddTab.translationX = it
-//            }
-
             (animator.getAnimatedValue(ivViewTabTranslationX) as? Float)?.let {
                 binding.tvViewTab.translationX = it
                 binding.vBackgroundTab.translationX = it
@@ -505,7 +489,7 @@ class TabFragment : BaseViewBindingFragment<FragmentTabBinding>(), Navigation, T
                 AppBarLayout.ScrollingViewBehavior()
             } else {
                 binding.frameContent.translationY = (binding.appBarLayout.bottom - binding.coordinatorLayout.paddingTop).toFloat()
-                CollapsingImageBehavior2()
+                ContentCollapsingBehavior()
             }
 
             binding.frameContent.requestLayout()
@@ -578,7 +562,7 @@ interface PageView {
     }
 }
 
-class CollapsingImageBehavior(context: Context?, attrs: AttributeSet?) : CoordinatorLayout.Behavior<View>(context, attrs) {
+class SearchCollapsingBehavior(context: Context?, attrs: AttributeSet?) : CoordinatorLayout.Behavior<View>(context, attrs) {
 
     override fun layoutDependsOn(parent: CoordinatorLayout, child: View, dependency: View): Boolean {
 
@@ -594,7 +578,7 @@ class CollapsingImageBehavior(context: Context?, attrs: AttributeSet?) : Coordin
 }
 
 
-class CollapsingImageBehavior2 : CoordinatorLayout.Behavior<View>() {
+class ContentCollapsingBehavior : CoordinatorLayout.Behavior<View>() {
 
     override fun layoutDependsOn(parent: CoordinatorLayout, child: View, dependency: View): Boolean {
 
