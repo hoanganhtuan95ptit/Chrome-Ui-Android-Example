@@ -3,8 +3,10 @@ package com.tuanhoang.chrome.ui.activities
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.core.view.doOnPreDraw
+import androidx.core.view.updatePadding
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.one.adapter.MultiAdapter
@@ -20,7 +22,6 @@ import com.tuanhoang.chrome.ui.activities.adapter.TabViewItem
 import com.tuanhoang.chrome.ui.tab.TabFragment
 import com.tuanhoang.chrome.ui.tab.TabView
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
 
@@ -45,7 +46,7 @@ class MainActivity : BaseViewModelActivity<ActivityMainBinding, MainViewModel>()
 
         lifecycleScope.launchWhenResumed {
 
-            openSingleTab(viewModel.getTab(""))
+            openSingleTab(viewModel.getTab(""), false)
         }
 
 
@@ -71,6 +72,8 @@ class MainActivity : BaseViewModelActivity<ActivityMainBinding, MainViewModel>()
 
             lifecycleScope.launch {
 
+                if (it.size > (adapter?.itemCount ?: 0)) delay(350)
+
                 suspendCancellableCoroutine<Boolean> { a ->
 
                     adapter?.submitList(it) {
@@ -87,20 +90,25 @@ class MainActivity : BaseViewModelActivity<ActivityMainBinding, MainViewModel>()
 
         val binding = binding ?: return
 
+
+        val updateUi: (WindowInsets) -> Unit = {
+
+            val statusHeight = it.getStatusBar()
+            val navigationHeight = it.getNavigationBar()
+
+            if (statusHeight > 0) binding.recTab.updatePadding(top = statusHeight)
+            if (navigationHeight > 0) binding.vBackgroundAction.updateMargin(bottom = navigationHeight)
+        }
+
         window.decorView.setOnApplyWindowInsetsListener { _, insets ->
 
-            val statusHeight = insets.getStatusBar()
-
-            if (statusHeight > 0) binding.recTab.updateMargin(top = statusHeight)
-
+            updateUi.invoke(insets)
             insets
         }
 
         binding.root.doOnPreDraw {
 
-            val statusHeight = binding.root.rootWindowInsets.getStatusBar()
-
-            if (statusHeight > 0) binding.recTab.updateMargin(top = statusHeight)
+            updateUi.invoke(binding.root.rootWindowInsets)
         }
     }
 
@@ -140,7 +148,7 @@ class MainActivity : BaseViewModelActivity<ActivityMainBinding, MainViewModel>()
         binding.frameContent.visibility = View.GONE
     }
 
-    fun openSingleTab(tab: Tab) = lifecycleScope.launch {
+    private fun openSingleTab(tab: Tab, anim: Boolean = true) = lifecycleScope.launch {
 
         val binding = binding ?: return@launch
 
@@ -151,23 +159,17 @@ class MainActivity : BaseViewModelActivity<ActivityMainBinding, MainViewModel>()
         val layoutManager = binding.recTab.layoutManager as GridLayoutManager
 
 
-        var viewItemSelect: View? = null
+        val tabViewItemListDisplay = viewModel.tabViewItemListDisplay.getOrEmpty()
 
-        while (viewItemSelect == null && isActive) {
+        val indexSelect = tabViewItemListDisplay.indexOfLast { (it as? TabViewItem)?.data?.id == tab.id }
 
-            val tabViewItemListDisplay = viewModel.tabViewItemListDisplay.getOrEmpty()
-
-            val indexSelect = tabViewItemListDisplay.indexOfLast { (it as? TabViewItem)?.data?.id == tab.id }
-
-            viewItemSelect = layoutManager.findViewByPosition(indexSelect)
-
-            delay(10)
-        }
-
-        viewItemSelect = viewItemSelect ?: binding.ivAdd
+        val viewItemSelect = layoutManager.findViewByPosition(indexSelect) ?: binding.ivAdd
 
 
-        binding.root.show(viewItemSelect, binding.frameContent)
+        if (anim) binding.root.show(viewItemSelect, binding.frameContent)
+
+
+        viewItemSelect.visibility = View.VISIBLE
         binding.frameContent.visibility = View.VISIBLE
 
 

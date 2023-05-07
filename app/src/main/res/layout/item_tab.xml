@@ -7,23 +7,24 @@
     android:layout_margin="8dp"
     android:background="@drawable/bg_corner_12dp_solid_state_surface_accent"
     android:minHeight="250dp"
-    android:paddingTop="8dp"
+    android:paddingTop="4dp"
     android:paddingBottom="4dp">
 
     <ImageView
         android:id="@+id/iv_logo"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:layout_marginStart="4dp"
+        android:paddingStart="4dp"
+        android:paddingEnd="4dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_title"
-        style="?attr/textBody2"
+        style="?attr/textCaption"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginHorizontal="8dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
         android:ellipsize="end"
         android:lines="1"
         android:singleLine="false"
@@ -38,21 +39,23 @@
         android:id="@+id/iv_close"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:padding="4dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="4dp"
         android:src="@drawable/ic_close_on_state_surface_accent"
+        app:layout_constraintBottom_toBottomOf="@id/tv_title"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/tv_title" />
 
     <com.tuanhoang.chrome.utils.view.TopCropImageView
         android:id="@+id/iv_tab"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginHorizontal="4dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         app:bottomLeftRadius="11dp"
         app:bottomRightRadius="11dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_title"
+        app:layout_constraintTop_toBottomOf="@id/iv_logo"
         app:topLeftRadius="6dp"
         app:topRightRadius="6dp" />
 

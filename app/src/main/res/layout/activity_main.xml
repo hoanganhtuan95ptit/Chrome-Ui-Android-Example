@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
@@ -8,22 +9,56 @@
     android:theme="@style/Theme.Wallet"
     tools:context=".ui.activities.MainActivity">
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rec_tab"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/v_background_action"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/v_background_action"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <ImageView
         android:id="@+id/iv_add"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="100dp"
-        android:background="#5b5" />
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:background="@drawable/bg_corner_150dp_solid_accent"
+        android:padding="10dp"
+        android:src="@drawable/ic_add_on_accent_24dp"
+        app:layout_constraintBottom_toBottomOf="@id/v_background_action"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/v_background_action" />
+
+    <TextView
+        android:id="@+id/tv_clear_all"
+        style="?attr/textBody2"
+        android:padding="8dp"
+        android:text="@string/action_clear_all"
+        android:textColor="?attr/colorAccent"
+        app:layout_constraintBottom_toBottomOf="@id/iv_add"
+        app:layout_constraintEnd_toStartOf="@id/iv_add"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/iv_add" />
+
+    <TextView
+        android:id="@+id/tv_done"
+        style="?attr/textBody2"
+        android:padding="8dp"
+        android:text="@string/action_done"
+        android:textColor="?attr/colorAccent"
+        app:layout_constraintBottom_toBottomOf="@id/iv_add"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/iv_add"
+        app:layout_constraintTop_toTopOf="@id/iv_add" />
 
     <FrameLayout
         android:id="@+id/frame_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

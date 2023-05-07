@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/coordinator_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -24,15 +25,30 @@
             app:contentInsetStart="0dp"
             app:layout_scrollFlags="scroll|snap">
 
-            <ImageView
-                android:id="@+id/iv_view_tab_1"
+            <View
+                android:id="@+id/v_background_tab_1"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_margin="6dp"
+                android:background="@drawable/ic_square_on_background_24dp"
+                app:layout_constraintBottom_toBottomOf="@id/tv_view_tab_1"
+                app:layout_constraintEnd_toEndOf="@id/tv_view_tab_1"
+                app:layout_constraintStart_toStartOf="@id/tv_view_tab_1"
+                app:layout_constraintTop_toTopOf="@id/tv_view_tab_1" />
+
+            <TextView
+                android:id="@+id/tv_view_tab_1"
+                style="?attr/textCaption"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:padding="8dp"
-                android:src="@drawable/ic_square_on_background_24dp"
+                android:gravity="center"
+                android:padding="4dp"
+                android:textColor="?attr/colorOnBackground"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/iv_account_1"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="1" />
 
             <ImageView
                 android:id="@+id/iv_account_1"
@@ -107,24 +123,28 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/iv_add_tab"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:padding="8dp"
-            android:src="@drawable/ic_add_tab_on_background_24dp"
-            android:translationX="128dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/iv_view_tab"
-            app:layout_constraintTop_toTopOf="parent" />
+        <View
+            android:id="@+id/v_background_tab"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="6dp"
+            android:background="@drawable/ic_square_on_background_24dp"
+            android:translationX="96dp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_view_tab"
+            app:layout_constraintEnd_toEndOf="@id/tv_view_tab"
+            app:layout_constraintStart_toStartOf="@id/tv_view_tab"
+            app:layout_constraintTop_toTopOf="@id/tv_view_tab" />
 
-        <ImageView
-            android:id="@+id/iv_view_tab"
+        <TextView
+            android:id="@+id/tv_view_tab"
+            style="?attr/textCaption"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:padding="8dp"
-            android:src="@drawable/ic_square_on_background_24dp"
-            android:translationX="128dp"
+            android:gravity="center"
+            android:padding="4dp"
+            android:textColor="?attr/colorOnBackground"
+            android:textStyle="bold"
+            android:translationX="96dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/iv_account"
             app:layout_constraintTop_toTopOf="parent" />
@@ -136,7 +156,7 @@
             android:layout_margin="8dp"
             android:padding="8dp"
             android:src="@mipmap/ic_launcher"
-            android:translationX="128dp"
+            android:translationX="96dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

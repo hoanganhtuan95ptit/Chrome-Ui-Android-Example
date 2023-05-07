@@ -1,6 +1,7 @@
 package com.tuanhoang.chrome.ui.tab
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
@@ -31,9 +32,23 @@ abstract class PageFragment<T : ViewBinding, VM : ViewModel>(@LayoutRes val layo
         }
     }
 
+    open fun onViewReady(view: View) {
+
+    }
+
     override fun provideGroupPage(): Page? {
 
         return page
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("tuanha", "onResume: ${this.javaClass.simpleName}")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d("tuanha", "onPause: ${this.javaClass.simpleName}")
     }
 
     @CallSuper
@@ -43,7 +58,4 @@ abstract class PageFragment<T : ViewBinding, VM : ViewModel>(@LayoutRes val layo
         (parentFragment as TabView).onPageHide(page)
     }
 
-    open fun onViewReady(view: View) {
-
-    }
 }

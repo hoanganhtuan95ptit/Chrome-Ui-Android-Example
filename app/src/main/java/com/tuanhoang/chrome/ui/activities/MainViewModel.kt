@@ -128,8 +128,6 @@ class MainViewModel : BaseViewModel() {
             tabCache.title = title
         }
 
-        Log.d("tuanha", "updateTab: title:$title logo:$logo ")
-
         tabList.postValue(tabList.getOrEmpty())
     }
 }

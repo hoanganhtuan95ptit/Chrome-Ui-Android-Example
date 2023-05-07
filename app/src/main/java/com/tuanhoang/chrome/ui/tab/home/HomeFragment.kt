@@ -58,12 +58,12 @@ class HomeFragment : PageFragment<FragmentHomeBinding, HomeViewModel>() {
 
         val binding = binding ?: return
 
-        val groupLinkAdapter = GroupLinkAdapter { view, link ->
+        val groupLinkAdapter = GroupLinkAdapter { _, link ->
 
             offerNavEvent(WebEvent(url = link.url))
         }
 
-        val resultLinkAdapter = ResultLinkAdapter { view, item ->
+        val resultLinkAdapter = ResultLinkAdapter { _, item ->
 
             offerNavEvent(WebEvent(url = item.data.url))
         }

@@ -37,44 +37,20 @@ class HomeViewModel : BaseViewModel() {
             list.add(it)
         }
 
-        listOf(
-            ResultLink(
-                url = "https://github.com/",
-                name = "Github",
-                image = "https://github.blog/wp-content/uploads/2021/12/GitHub-code-search_banner.png?resize=1200%2C630",
-                title = "Today, we are rolling out a technology preview for GitHub code search, the next iteration for search, discovery, and navigation on GitHub."
-            ),
-            ResultLink(
-                url = "https://github.com/",
-                name = "Github",
-                image = "https://github.blog/wp-content/uploads/2021/12/GitHub-code-search_banner.png?resize=1200%2C630",
-                title = "Today, we are rolling out a technology preview for GitHub code search, the next iteration for search, discovery, and navigation on GitHub."
-            ),
-            ResultLink(
-                url = "https://github.com/",
-                name = "Github",
-                image = "https://github.blog/wp-content/uploads/2021/12/GitHub-code-search_banner.png?resize=1200%2C630",
-                title = "Today, we are rolling out a technology preview for GitHub code search, the next iteration for search, discovery, and navigation on GitHub."
-            ),
-            ResultLink(
-                url = "https://github.com/",
-                name = "Github",
-                image = "https://github.blog/wp-content/uploads/2021/12/GitHub-code-search_banner.png?resize=1200%2C630",
-                title = "Today, we are rolling out a technology preview for GitHub code search, the next iteration for search, discovery, and navigation on GitHub."
-            ),
-            ResultLink(
-                url = "https://github.com/",
-                name = "Github",
-                image = "https://github.blog/wp-content/uploads/2021/12/GitHub-code-search_banner.png?resize=1200%2C630",
-                title = "Today, we are rolling out a technology preview for GitHub code search, the next iteration for search, discovery, and navigation on GitHub."
-            ),
-        ).map {
+
+        for (i in 0..20) ResultLink(
+            url = "https://github.com/",
+            name = "Github",
+            image = "https://github.blog/wp-content/uploads/2021/12/GitHub-code-search_banner.png",
+            title = "Today, we are rolling out a technology preview for GitHub code search, the next iteration for search, discovery, and navigation on GitHub."
+        ).let {
 
             ResultLinkViewItem(it).refresh()
         }.let {
 
-            list.addAll(it)
+            list.add(it)
         }
+
 
         postValue(list)
     }

@@ -47,7 +47,7 @@ class TabAdapter(onItemClick: (View, TabViewItem) -> Unit) : ViewItemAdapter<Tab
     }
 
     private fun refreshImage(binding: ItemTabBinding, item: TabViewItem) {
-        binding.ivTab.setImage(item.image)
+        binding.ivTab.setImage(item.image, cache = false)
     }
 
     private fun refreshSelected(binding: ItemTabBinding, item: TabViewItem) {
@@ -87,7 +87,9 @@ data class TabViewItem(
     )
 
     override fun getContentsCompare(): List<Pair<Any, String>> = listOf(
+
         logo to PAYLOAD_LOGO,
+
         title to PAYLOAD_TITLE,
         image to PAYLOAD_IMAGE,
 

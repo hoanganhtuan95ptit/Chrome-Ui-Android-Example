@@ -16,4 +16,6 @@
     <string name="title_search">Search</string>
     <string name="search_with_google">Search %s with Google</string>
     <string name="search_with_youtube">Search %s with Youtube</string>
+    <string name="action_done">Done</string>
+    <string name="action_clear_all">Clear All</string>
 </resources>

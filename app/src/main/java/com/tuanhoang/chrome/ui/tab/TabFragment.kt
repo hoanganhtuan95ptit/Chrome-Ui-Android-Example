@@ -83,6 +83,8 @@ class TabFragment : BaseViewBindingFragment<FragmentTabBinding>(), Navigation, T
             val groupPages = tab.pages.values.toList()
             openGroupPage(groupPages.getOrNull(groupPages.lastIndex))
         }
+
+        observeMainData()
     }
 
     override fun onResume() {
@@ -210,12 +212,12 @@ class TabFragment : BaseViewBindingFragment<FragmentTabBinding>(), Navigation, T
 
         val binding = binding ?: return
 
-        binding.ivViewTab1.setDebouncedClickListener {
+        binding.tvViewTab1.setDebouncedClickListener {
 
             (activity as? MainActivity)?.openMultiTab()
         }
 
-        binding.ivViewTab.setDebouncedClickListener {
+        binding.tvViewTab.setDebouncedClickListener {
 
             (activity as? MainActivity)?.openMultiTab()
         }
@@ -258,7 +260,7 @@ class TabFragment : BaseViewBindingFragment<FragmentTabBinding>(), Navigation, T
         val navigationHeight = insets.getNavigationBar()
 
         if (statusHeight > 0) binding.coordinatorLayout.updatePadding(top = statusHeight)
-        if (statusHeight > 0) binding.frameContent.resize(height = requireActivity().window.decorView.height - statusHeight  - 56.toPx())
+        if (statusHeight > 0) binding.frameContent.resize(height = requireActivity().window.decorView.height - statusHeight - 56.toPx())
 
         insets
     }
@@ -300,6 +302,19 @@ class TabFragment : BaseViewBindingFragment<FragmentTabBinding>(), Navigation, T
 
             binding.edtSearch.updateMarginHorizontal(marginHorizontal)
         })
+    }
+
+    private fun observeMainData() = with(mainViewModel) {
+
+        tabList.observe(viewLifecycleOwner) {
+
+            val binding = binding ?: return@observe
+
+            val tabNumber = if (it.size > 10) "9+" else "${it.size}"
+
+            binding.tvViewTab.setText(tabNumber)
+            binding.tvViewTab1.setText(tabNumber)
+        }
     }
 
     private fun addFragment(fragment: Fragment) {
@@ -370,7 +385,7 @@ class TabFragment : BaseViewBindingFragment<FragmentTabBinding>(), Navigation, T
         } else if (pageTypeNew == GroupPageType.HOME) {
             DP_24
         } else {
-            DP_136
+            DP_96
         }
 
         if (binding.edtSearch.marginEnd != marginEndNew) PropertyValuesHolder.ofInt(marginEnd, binding.edtSearch.marginEnd, marginEndNew).let {
@@ -404,31 +419,35 @@ class TabFragment : BaseViewBindingFragment<FragmentTabBinding>(), Navigation, T
         }
 
 
-        val ivAddTabTranslationXNew = if (pageTypeNew != GroupPageType.NORMAL) {
-            DP_128.toFloat()
-        } else {
-            DP_0.toFloat()
-        }
-
-        if (binding.ivAddTab.translationX != ivHomeTranslationXNew) PropertyValuesHolder.ofFloat(ivAddTabTranslationX, binding.ivAddTab.translationX, ivAddTabTranslationXNew).let {
-
-            list.add(it)
-        }
+//        val ivAddTabTranslationXNew = if (pageTypeNew != GroupPageType.NORMAL) {
+//            DP_128.toFloat()
+//        } else {
+//            DP_0.toFloat()
+//        }
+//
+//        if (binding.ivAddTab.translationX != ivHomeTranslationXNew) PropertyValuesHolder.ofFloat(ivAddTabTranslationX, binding.ivAddTab.translationX, ivAddTabTranslationXNew).let {
+//
+//            list.add(it)
+//        }
 
 
         val ivViewTabTranslationXNew = if (pageTypeNew != GroupPageType.NORMAL) {
-            DP_128.toFloat()
+            DP_96.toFloat()
         } else {
             DP_0.toFloat()
         }
 
-        if (binding.ivViewTab.translationX != ivViewTabTranslationXNew) PropertyValuesHolder.ofFloat(ivViewTabTranslationX, binding.ivViewTab.translationX, ivViewTabTranslationXNew).let {
+        if (binding.tvViewTab.translationX != ivViewTabTranslationXNew) PropertyValuesHolder.ofFloat(ivViewTabTranslationX, binding.tvViewTab.translationX, ivViewTabTranslationXNew).let {
 
             list.add(it)
         }
 
 
-        val ivMenuProfileTranslationXNew = (if (pageTypeNew != GroupPageType.NORMAL) 128.toPx() else 0.toPx()).toFloat()
+        val ivMenuProfileTranslationXNew = if (pageTypeNew != GroupPageType.NORMAL) {
+            DP_96.toFloat()
+        } else {
+            DP_0.toFloat()
+        }
 
         if (binding.ivAccount.translationX != ivMenuProfileTranslationXNew) PropertyValuesHolder.ofFloat(ivMenuProfileTranslationX, binding.ivAccount.translationX, ivMenuProfileTranslationXNew).let {
 
@@ -457,12 +476,13 @@ class TabFragment : BaseViewBindingFragment<FragmentTabBinding>(), Navigation, T
                 binding.ivHome.translationX = it
             }
 
-            (animator.getAnimatedValue(ivAddTabTranslationX) as? Float)?.let {
-                binding.ivAddTab.translationX = it
-            }
+//            (animator.getAnimatedValue(ivAddTabTranslationX) as? Float)?.let {
+//                binding.ivAddTab.translationX = it
+//            }
 
             (animator.getAnimatedValue(ivViewTabTranslationX) as? Float)?.let {
-                binding.ivViewTab.translationX = it
+                binding.tvViewTab.translationX = it
+                binding.vBackgroundTab.translationX = it
             }
 
             (animator.getAnimatedValue(ivMenuProfileTranslationX) as? Float)?.let {
@@ -508,6 +528,7 @@ class TabFragment : BaseViewBindingFragment<FragmentTabBinding>(), Navigation, T
         private val DP_24 = DP_4 * 6
         private val DP_48 = DP_4 * 12
         private val DP_56 = DP_4 * 14
+        private val DP_96 = DP_4 * 24
         private val DP_128 = DP_4 * 32
         private val DP_136 = DP_4 * 34
 
