@@ -255,7 +255,6 @@ class TabFragment : BaseViewBindingFragment<FragmentTabBinding>(), Navigation, T
         val binding = binding ?: return@setOnApplyWindowInsetsListener insets
 
         val statusHeight = insets.getStatusBar()
-        val navigationHeight = insets.getNavigationBar()
 
         if (statusHeight > 0) binding.coordinatorLayout.updatePadding(top = statusHeight)
         if (statusHeight > 0) binding.frameContent.resize(height = requireActivity().window.decorView.height - statusHeight - 56.toPx())
@@ -310,8 +309,8 @@ class TabFragment : BaseViewBindingFragment<FragmentTabBinding>(), Navigation, T
 
             val tabNumber = if (it.size > 10) "9+" else "${it.size}"
 
-            binding.tvViewTab.setText(tabNumber)
-            binding.tvViewTab1.setText(tabNumber)
+            binding.tvViewTab.text = tabNumber
+            binding.tvViewTab1.text = tabNumber
         }
     }
 
