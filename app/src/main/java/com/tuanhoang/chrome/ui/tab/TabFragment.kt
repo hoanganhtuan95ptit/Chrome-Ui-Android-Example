@@ -12,7 +12,6 @@ import android.view.inputmethod.InputMethodManager
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.os.bundleOf
 import androidx.core.view.marginEnd
-import androidx.core.view.marginStart
 import androidx.core.view.updatePadding
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
@@ -50,15 +49,16 @@ import kotlin.math.max
 class TabFragment : BaseViewBindingFragment<FragmentTabBinding>(), Navigation, TabView {
 
 
-    private lateinit var tab: Tab
-
-
     private var animation: Boolean = true
 
     private var pageTypeCurrent: GroupPageType? = null
 
     private var verticalOffsetCurrent = 0
 
+
+    private val tab: Tab by lazy {
+        mainViewModel.getTab(arguments?.getString(PARAM_TAB_ID) ?: "")
+    }
 
     private val mainViewModel: MainViewModel by lazy {
         getKoin().getViewModel(requireActivity(), MainViewModel::class)
@@ -67,8 +67,6 @@ class TabFragment : BaseViewBindingFragment<FragmentTabBinding>(), Navigation, T
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        tab = mainViewModel.getTab(arguments?.getString(PARAM_TAB_ID) ?: "")
 
         animation = tab.pages.size <= 0
 
@@ -357,11 +355,11 @@ class TabFragment : BaseViewBindingFragment<FragmentTabBinding>(), Navigation, T
         }
 
 
-        updateStateSupend(animation, pageTypeNew, verticalOffset)
+        updateStateSuspend(animation, pageTypeNew, verticalOffset)
     }
 
     @SuppressLint("Recycle")
-    private suspend fun updateStateSupend(animation: Boolean, pageTypeNew: GroupPageType, verticalOffset: Int = 0) = suspendCancellableCoroutine<Boolean> { continuation ->
+    private suspend fun updateStateSuspend(animation: Boolean, pageTypeNew: GroupPageType, verticalOffset: Int = 0) = suspendCancellableCoroutine<Boolean> { continuation ->
 
         val binding = binding ?: return@suspendCancellableCoroutine
 
@@ -375,12 +373,13 @@ class TabFragment : BaseViewBindingFragment<FragmentTabBinding>(), Navigation, T
         val verticalOffsetNew = if (pageTypeNew != GroupPageType.HOME) -binding.appBarLayout.totalScrollRange else verticalOffset
 
 
-        if (verticalOffsetCurrent != verticalOffsetNew) PropertyValuesHolder.ofInt(Offset, verticalOffsetCurrent, verticalOffsetNew).let {
+        if (verticalOffsetCurrent != verticalOffsetNew) PropertyValuesHolder.ofInt(OFFSET, verticalOffsetCurrent, verticalOffsetNew).let {
 
             list.add(it)
         }
 
-        val marginEndNew = if (pageTypeNew == GroupPageType.SEARCH || (pageTypeNew == GroupPageType.HOME && verticalOffsetNew == -binding.appBarLayout.totalScrollRange)) {
+
+        val searchMarginEndNew = if (pageTypeNew == GroupPageType.SEARCH || (pageTypeNew == GroupPageType.HOME && verticalOffsetNew == -binding.appBarLayout.totalScrollRange)) {
             DP_16
         } else if (pageTypeNew == GroupPageType.HOME) {
             DP_24
@@ -388,12 +387,15 @@ class TabFragment : BaseViewBindingFragment<FragmentTabBinding>(), Navigation, T
             DP_96
         }
 
-        if (binding.edtSearch.marginEnd != marginEndNew) PropertyValuesHolder.ofInt(marginEnd, binding.edtSearch.marginEnd, marginEndNew).let {
+        val searchMarginEndCurrent = binding.edtSearch.marginEnd
+
+        if (searchMarginEndCurrent != searchMarginEndNew) PropertyValuesHolder.ofInt(SEARCH_MARGIN_END, searchMarginEndCurrent, searchMarginEndNew).let {
 
             list.add(it)
         }
 
-        val marginStartNew = if (pageTypeNew == GroupPageType.SEARCH || (pageTypeNew == GroupPageType.HOME && verticalOffsetNew == -binding.appBarLayout.totalScrollRange)) {
+
+        val searchMarginStartNew = if (pageTypeNew == GroupPageType.SEARCH || (pageTypeNew == GroupPageType.HOME && verticalOffsetNew == -binding.appBarLayout.totalScrollRange)) {
             DP_16
         } else if (pageTypeNew == GroupPageType.HOME) {
             DP_24
@@ -401,43 +403,51 @@ class TabFragment : BaseViewBindingFragment<FragmentTabBinding>(), Navigation, T
             DP_56
         }
 
-        if (binding.edtSearch.marginEnd != marginEndNew) PropertyValuesHolder.ofInt(marginStart, binding.edtSearch.marginStart, marginStartNew).let {
+        val searchMarginStartCurrent = binding.edtSearch.marginEnd
+
+        if (searchMarginStartCurrent != searchMarginEndNew) PropertyValuesHolder.ofInt(SEARCH_MARGIN_START, searchMarginStartCurrent, searchMarginStartNew).let {
 
             list.add(it)
         }
 
 
-        val ivHomeTranslationXNew = if (pageTypeNew != GroupPageType.NORMAL) {
+        val homeTranslationXNew = if (pageTypeNew != GroupPageType.NORMAL) {
             -DP_48.toFloat()
         } else {
             DP_0.toFloat()
         }
 
-        if (binding.ivHome.translationX != ivHomeTranslationXNew) PropertyValuesHolder.ofFloat(ivHomeTranslationX, binding.ivHome.translationX, ivHomeTranslationXNew).let {
+        val homeTranslationXCurrent = binding.ivHome.translationX
+
+        if (homeTranslationXCurrent != homeTranslationXNew) PropertyValuesHolder.ofFloat(HOME_TRANSACTION_X, homeTranslationXCurrent, homeTranslationXNew).let {
 
             list.add(it)
         }
 
 
-        val ivViewTabTranslationXNew = if (pageTypeNew != GroupPageType.NORMAL) {
+        val tabTranslationXNew = if (pageTypeNew != GroupPageType.NORMAL) {
             DP_96.toFloat()
         } else {
             DP_0.toFloat()
         }
 
-        if (binding.tvViewTab.translationX != ivViewTabTranslationXNew) PropertyValuesHolder.ofFloat(ivViewTabTranslationX, binding.tvViewTab.translationX, ivViewTabTranslationXNew).let {
+        val tabTranslationXCurrent = binding.tvViewTab.translationX
+
+        if (tabTranslationXCurrent != tabTranslationXNew) PropertyValuesHolder.ofFloat(TAB_TRANSACTION_X, tabTranslationXCurrent, tabTranslationXNew).let {
 
             list.add(it)
         }
 
 
-        val ivMenuProfileTranslationXNew = if (pageTypeNew != GroupPageType.NORMAL) {
+        val profileTranslationXNew = if (pageTypeNew != GroupPageType.NORMAL) {
             DP_96.toFloat()
         } else {
             DP_0.toFloat()
         }
 
-        if (binding.ivAccount.translationX != ivMenuProfileTranslationXNew) PropertyValuesHolder.ofFloat(ivMenuProfileTranslationX, binding.ivAccount.translationX, ivMenuProfileTranslationXNew).let {
+        val profileTranslationXCurrent = binding.ivAccount.translationX
+
+        if (profileTranslationXCurrent != profileTranslationXNew) PropertyValuesHolder.ofFloat(PROFILE_TRANSACTION_X, profileTranslationXCurrent, profileTranslationXNew).let {
 
             list.add(it)
         }
@@ -458,22 +468,22 @@ class TabFragment : BaseViewBindingFragment<FragmentTabBinding>(), Navigation, T
             binding.appBarLayout.setDrag(behavior, true)
         }, onUpdate = { animator ->
 
-            binding.edtSearch.updateMarginHorizontal(animator.getAnimatedValue(marginStart) as? Int, animator.getAnimatedValue(marginEnd) as? Int)
+            binding.edtSearch.updateMarginHorizontal(animator.getAnimatedValue(SEARCH_MARGIN_START) as? Int, animator.getAnimatedValue(SEARCH_MARGIN_END) as? Int)
 
-            (animator.getAnimatedValue(ivHomeTranslationX) as? Float)?.let {
+            (animator.getAnimatedValue(HOME_TRANSACTION_X) as? Float)?.let {
                 binding.ivHome.translationX = it
             }
 
-            (animator.getAnimatedValue(ivViewTabTranslationX) as? Float)?.let {
+            (animator.getAnimatedValue(TAB_TRANSACTION_X) as? Float)?.let {
                 binding.tvViewTab.translationX = it
                 binding.vBackgroundTab.translationX = it
             }
 
-            (animator.getAnimatedValue(ivMenuProfileTranslationX) as? Float)?.let {
+            (animator.getAnimatedValue(PROFILE_TRANSACTION_X) as? Float)?.let {
                 binding.ivAccount.translationX = it
             }
 
-            (animator.getAnimatedValue(Offset) as? Int)?.let {
+            (animator.getAnimatedValue(OFFSET) as? Int)?.let {
                 behavior.topAndBottomOffset = it
                 binding.appBarLayout.requestLayout()
             }
@@ -514,16 +524,15 @@ class TabFragment : BaseViewBindingFragment<FragmentTabBinding>(), Navigation, T
         private val DP_48 = DP_4 * 12
         private val DP_56 = DP_4 * 14
         private val DP_96 = DP_4 * 24
-        private val DP_128 = DP_4 * 32
-        private val DP_136 = DP_4 * 34
 
-        private const val Offset = "Offset"
-        private const val marginEnd = "marginEnd"
-        private const val marginStart = "marginStart"
-        private const val ivHomeTranslationX = "ivHomeTranslationX"
-        private const val ivAddTabTranslationX = "ivAddTabTranslationX"
-        private const val ivViewTabTranslationX = "ivViewTabTranslationX"
-        private const val ivMenuProfileTranslationX = "ivMenuProfileTranslationX"
+        private const val OFFSET = "OFFSET"
+
+        private const val SEARCH_MARGIN_END = "SEARCH_MARGIN_END"
+        private const val SEARCH_MARGIN_START = "SEARCH_MARGIN_START"
+
+        private const val TAB_TRANSACTION_X = "TAB_TRANSACTION_X"
+        private const val HOME_TRANSACTION_X = "HOME_TRANSACTION_X"
+        private const val PROFILE_TRANSACTION_X = "PROFILE_TRANSACTION_X"
 
         fun newInstance(tabId: String) = TabFragment().apply {
 
