@@ -34,62 +34,35 @@ class MainActivity : BaseViewModelActivity<ActivityMainBinding, MainViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val binding = binding ?: return
-
         window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
         window.statusBarColor = Color.TRANSPARENT
         window.navigationBarColor = Color.TRANSPARENT
 
-
+        setupAddTab()
         setupStatusBar()
+        setupRecyclerView()
 
+        observeData()
 
         lifecycleScope.launchWhenResumed {
 
             openSingleTab(viewModel.getTab(""), false)
         }
+    }
 
+    private fun setupAddTab() {
+
+        val binding = binding ?: return
 
         binding.ivAdd.setDebouncedClickListener {
 
             openSingleTab(viewModel.getTab(""))
-        }
-
-
-        val tabAdapter = TabAdapter { view, tabViewItem ->
-
-            openSingleTab(tabViewItem.data)
-        }
-
-
-        adapter = MultiAdapter(tabAdapter).apply {
-
-            binding.recTab.adapter = this
-            binding.recTab.layoutManager = GridLayoutManager(this@MainActivity, 2)
-        }
-
-        viewModel.tabViewItemListDisplay.observe(this) {
-
-            lifecycleScope.launch {
-
-                if (it.size > (adapter?.itemCount ?: 0)) delay(350)
-
-                suspendCancellableCoroutine<Boolean> { a ->
-
-                    adapter?.submitList(it) {
-                        a.resumeActive(true)
-                    }
-                }
-
-                binding.recTab.scrollToPosition(it.indexOfLast { (it as? TabViewItem)?.data?.isCurrent == true }.takeIf { it >= 0 } ?: (it.size - 1))
-            }
         }
     }
 
     private fun setupStatusBar() {
 
         val binding = binding ?: return
-
 
         val updateUi: (WindowInsets) -> Unit = {
 
@@ -109,6 +82,44 @@ class MainActivity : BaseViewModelActivity<ActivityMainBinding, MainViewModel>()
         binding.root.doOnPreDraw {
 
             updateUi.invoke(binding.root.rootWindowInsets)
+        }
+    }
+
+    private fun setupRecyclerView() {
+
+        val binding = binding ?: return
+
+        val tabAdapter = TabAdapter { _, tabViewItem ->
+
+            openSingleTab(tabViewItem.data)
+        }
+
+        adapter = MultiAdapter(tabAdapter).apply {
+
+            binding.recTab.adapter = this
+            binding.recTab.layoutManager = GridLayoutManager(this@MainActivity, 2)
+        }
+    }
+
+    private fun observeData() = with(viewModel){
+
+        tabViewItemListDisplay.observe(this@MainActivity) {
+
+            val binding = binding ?: return@observe
+
+            lifecycleScope.launch {
+
+                if (it.size > (adapter?.itemCount ?: 0)) delay(350)
+
+                suspendCancellableCoroutine<Boolean> { a ->
+
+                    adapter?.submitList(it) {
+                        a.resumeActive(true)
+                    }
+                }
+
+                binding.recTab.scrollToPosition(it.indexOfLast { (it as? TabViewItem)?.data?.isCurrent == true }.takeIf { it >= 0 } ?: (it.size - 1))
+            }
         }
     }
 
