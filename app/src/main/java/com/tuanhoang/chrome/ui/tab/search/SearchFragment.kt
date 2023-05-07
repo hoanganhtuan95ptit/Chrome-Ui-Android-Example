@@ -14,6 +14,7 @@ import com.tuanhoang.chrome.LOGO_PAGE_DEFAULT
 import com.tuanhoang.chrome.PARAM_GROUP_PAGE
 import com.tuanhoang.chrome.R
 import com.tuanhoang.chrome.databinding.FragmentSearchBinding
+import com.tuanhoang.chrome.entities.GroupPageType
 import com.tuanhoang.chrome.entities.Page
 import com.tuanhoang.chrome.ui.activities.MainViewModel
 import com.tuanhoang.chrome.ui.tab.PageFragment
@@ -36,9 +37,7 @@ class SearchFragment : PageFragment<FragmentSearchBinding, SearchViewModel>() {
 
     override val page: Page by lazy {
 
-        val page = requireArguments().getParcelable<Page>(PARAM_GROUP_PAGE)!!
-
-        mainViewModel.tabList.getOrEmpty().flatMap { it.pages.values }.find { it.id == page.id } ?: page
+        Page(type = GroupPageType.SEARCH)
     }
 
 
