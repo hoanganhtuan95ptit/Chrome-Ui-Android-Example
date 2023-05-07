@@ -504,6 +504,7 @@ class TabFragment : BaseViewBindingFragment<FragmentTabBinding>(), Navigation, T
                 binding.frameContent.translationY = 0f
                 AppBarLayout.ScrollingViewBehavior()
             } else {
+                binding.frameContent.translationY = (binding.appBarLayout.bottom - binding.coordinatorLayout.paddingTop).toFloat()
                 CollapsingImageBehavior2()
             }
 

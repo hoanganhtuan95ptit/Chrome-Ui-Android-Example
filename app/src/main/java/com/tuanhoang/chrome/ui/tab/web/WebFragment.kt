@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.View
 import android.webkit.*
 import androidx.core.os.bundleOf
-import androidx.core.view.ViewCompat
 import com.one.coreapp.utils.extentions.getOrEmpty
 import com.one.coreapp.utils.extentions.setVisible
 import com.one.navigation.NavigationEvent
@@ -21,24 +20,25 @@ import org.koin.android.ext.android.getKoin
 import org.koin.androidx.viewmodel.koin.getViewModel
 import java.net.URL
 
-class WebFragment : PageFragment<FragmentWebBinding, MainViewModel>() {
+class WebFragment : PageFragment<FragmentWebBinding, WebViewModel>() {
+
+
+    private val mainViewModel: MainViewModel by lazy {
+
+        getKoin().getViewModel(requireActivity(), MainViewModel::class)
+    }
 
 
     override val page: Page by lazy {
 
         val page = requireArguments().getParcelable<Page>(PARAM_GROUP_PAGE)!!
 
-        viewModel.tabList.getOrEmpty().flatMap { it.pages.values }.find { it.id == page.id } ?: page
+        mainViewModel.tabList.getOrEmpty().flatMap { it.pages.values }.find { it.id == page.id } ?: page
     }
-
-
-    override val viewModel: MainViewModel by lazy {
-        getKoin().getViewModel(requireActivity(), MainViewModel::class)
-    }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
     }
 
     override fun onViewReady(view: View) {
@@ -79,7 +79,7 @@ class WebFragment : PageFragment<FragmentWebBinding, MainViewModel>() {
 
         val bundle = bundleOf()
         binding.webView.saveState(bundle)
-        viewModel.updatePage(page, bundle.getByteArray(WEBVIEW_CHROMIUM_STATE))
+        mainViewModel.updatePage(page, bundle.getByteArray(WEBVIEW_CHROMIUM_STATE))
     }
 
     @SuppressLint("SetJavaScriptEnabled")
