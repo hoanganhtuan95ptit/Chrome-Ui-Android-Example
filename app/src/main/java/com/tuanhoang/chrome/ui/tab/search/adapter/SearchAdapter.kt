@@ -1,5 +1,9 @@
 package com.tuanhoang.chrome.ui.tab.search.adapter
 
+import android.content.Context
+import android.os.Build
+import android.text.Html
+import android.util.Log
 import android.view.View
 import com.one.adapter.ViewItemAdapter
 import com.one.adapter.ViewItemCloneable
@@ -54,12 +58,19 @@ data class SearchViewItem(
             "https://www.google.com/s2/favicons?sz=128&domain=${URL(data.url).host}".toImage()
         }
 
-        name = if (data.type == SearchLinkType.SEARCH_GOOGLE) {
-            TextRes(R.string.search_with_google, data.name.toText())
-        } else if (data.type == SearchLinkType.SEARCH_YOUTUBE) {
-            TextRes(R.string.search_with_youtube, data.name.toText())
-        } else {
-            data.name.toText()
+        name = when (data.type) {
+            SearchLinkType.SEARCH_GOOGLE -> {
+                TextHtml(R.string.search_with_google, data.name.toText())
+            }
+            SearchLinkType.SEARCH_YOUTUBE -> {
+                TextHtml(R.string.search_with_youtube, data.name.toText())
+            }
+            SearchLinkType.SEARCH_TWITTER -> {
+                TextHtml(R.string.search_with_twitter, data.name.toText())
+            }
+            else -> {
+                data.name.toText()
+            }
         }
     }
 

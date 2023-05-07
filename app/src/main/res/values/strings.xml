@@ -14,8 +14,11 @@
 
     <string name="title_home">Home</string>
     <string name="title_search">Search</string>
-    <string name="search_with_google">Search %s with Google</string>
-    <string name="search_with_youtube">Search %s with Youtube</string>
+
+    <string name="search_with_google"><![CDATA[<p>Search <b>%s</b> with <b>Google</b></p>]]></string>
+    <string name="search_with_youtube"><![CDATA[<p>Search <b>%s</b> with <b>Youtube</b></p>]]></string>
+    <string name="search_with_twitter"><![CDATA[<p>Search <b>%s</b> with <b>Twitter</b></p>]]></string>
+
     <string name="action_done">Done</string>
     <string name="action_clear_all">Clear All</string>
 </resources>

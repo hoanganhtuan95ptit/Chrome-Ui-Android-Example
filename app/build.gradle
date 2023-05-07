@@ -44,10 +44,6 @@ dependencies {
 
     implementation koinDependencies.values()
 
-    implementation playDependencies.values()
-
-    implementation cameraDependencies.values()
-
     implementation jacksonDependencies.values()
 
     implementation hoanganhtuan95ptitDependencies.values()

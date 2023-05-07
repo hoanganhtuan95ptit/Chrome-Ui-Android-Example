@@ -16,5 +16,5 @@ data class SearchLink(
 ) : Link(id, url, name)
 
 enum class SearchLinkType {
-    NORMAL, SEARCH_GOOGLE, SEARCH_YOUTUBE
+    NORMAL, SEARCH_GOOGLE, SEARCH_YOUTUBE, SEARCH_TWITTER
 }

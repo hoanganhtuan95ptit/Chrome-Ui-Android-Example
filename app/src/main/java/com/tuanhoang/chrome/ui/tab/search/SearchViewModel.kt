@@ -43,6 +43,14 @@ class SearchViewModel : BaseViewModel() {
             list.add(it)
         }
 
+        SearchLink(id = "Twitter", url = "https://twitter.com/search?q=$query", query, SearchLinkType.SEARCH_TWITTER).let {
+
+            SearchViewItem(it).refresh()
+        }.let {
+
+            list.add(it)
+        }
+
         postValue(list)
     }
 

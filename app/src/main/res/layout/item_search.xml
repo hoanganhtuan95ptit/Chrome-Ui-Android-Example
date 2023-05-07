@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    android:padding="8dp">
+    android:paddingHorizontal="8dp"
+    android:paddingVertical="12dp">
 
     <ImageView
         android:id="@+id/iv_logo"
@@ -19,8 +19,7 @@
         android:id="@+id/tv_title"
         style="?attr/textBody2"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginHorizontal="8dp"
+        android:layout_marginHorizontal="16dp"
         android:ellipsize="end"
         android:lines="1"
         android:singleLine="false"
